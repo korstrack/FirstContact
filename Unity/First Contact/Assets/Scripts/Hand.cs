@@ -61,10 +61,14 @@ public class Hand : MonoBehaviour
 		if(m_CurrentInteractable.m_ActiveHand)
 			m_CurrentInteractable.m_ActiveHand.Drop();
     	//position
-    	m_CurrentInteractable.transform.position = transform.position;
-    	//attatch
-    	Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
-    	m_Joint.connectedBody = targetBody;
+    	// m_CurrentInteractable.transform.position = transform.position;
+    	// //attatch
+    	// Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
+    	// m_Joint.connectedBody = targetBody;
+		Rigidbody rigbod = m_CurrentInteractable.GetComponent<Rigidbody>();
+		rigbod.isKinematic = true;
+		rigbod.detectCollisions = false;
+		m_CurrentInteractable.transform.parent = this.transform;
     	//set active hand
     	m_CurrentInteractable.m_ActiveHand = this;
     }
@@ -74,6 +78,11 @@ public class Hand : MonoBehaviour
     	//null
     	if(!m_CurrentInteractable)
     		return;
+    	//give back rigidbody and dislocate from hand
+    	Rigidbody rigbod = m_CurrentInteractable.GetComponent<Rigidbody>();
+    	rigbod.isKinematic = false;
+    	rigbod.detectCollisions = true;
+    	m_CurrentInteractable.transform.parent = null;
     	//apply velocity
     	Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
     	targetBody.velocity = m_Pose.GetVelocity();

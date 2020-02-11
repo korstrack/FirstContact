@@ -73,7 +73,7 @@ public class Teleporter : MonoBehaviour
     	Ray ray = new Ray(transform.position, transform.forward);
     	RaycastHit hit;
     	// if its a hit
-    	if(Physics.Raycast(ray, out hit)){
+    	if(Physics.Raycast(ray, out hit) && hit.transform.tag == "Floor"){
     		m_Pointer.transform.position = hit.point;
     		return true;
     	}
